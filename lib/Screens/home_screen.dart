@@ -11,11 +11,16 @@ class HomeScreen extends StatefulWidget{
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  int? catId;
+  final textControllerRace = TextEditingController();
+  final textControllerName = TextEditingController();
+
   @override
   Widget build(BuildContext context){
     
-    final textControllerRace = TextEditingController();
-    final textControllerName = TextEditingController();
+    /*final textControllerRace = TextEditingController();
+    final textControllerName = TextEditingController(); */
 
     return Scaffold(
       appBar: AppBar(
@@ -60,7 +65,24 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: snapshot.data!.map((cat) {
                             return Center(
                               child: ListTile(
-                                title: Text(cat.name),
+                                title: Text('Name: ${cat.name} | Race: ${cat.race}'),
+                                onLongPress: () {
+                                  setState(() {
+                                    DatabaseHelper.instance.delete(cat.id!);
+                                  });
+                                },
+                                onTap: () {
+                                  setState(() {
+                                    if (catId == null){
+                                      textControllerName.text = cat.name;
+                                      textControllerRace.text = cat.race;
+                                    } else {
+                                      textControllerName.clear();
+                                      textControllerRace.clear();
+                                      catId = null;
+                                    }
+                                  });
+                                },
                               ),
                             );
                           }
@@ -78,6 +100,15 @@ class _HomeScreenState extends State<HomeScreen> {
         child: 
           Icon(Icons.save),
           onPressed: () async {
+            if (catId != null) {
+              await DatabaseHelper.instance.update(
+                Cat(
+                  name: textControllerName.text,
+                  race: textControllerRace.text,
+                  id: catId,
+                  )
+              );
+            }
             DatabaseHelper.instance.add(
               Cat(race: textControllerRace.text, name: textControllerName.text)
             );

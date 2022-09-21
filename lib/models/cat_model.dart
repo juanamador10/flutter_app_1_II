@@ -1,7 +1,7 @@
 class Cat{
   final int ? id;
-  final String ? race;
-  final String ? name;
+  final String race;
+  final String name;
 
   Cat({
     this.id,
