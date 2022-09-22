@@ -64,26 +64,31 @@ class _HomeScreenState extends State<HomeScreen> {
                         shrinkWrap: true,
                         children: snapshot.data!.map((cat) {
                             return Center(
-                              child: ListTile(
-                                title: Text('Name: ${cat.name} | Race: ${cat.race}'),
-                                onLongPress: () {
-                                  setState(() {
-                                    DatabaseHelper.instance.delete(cat.id!);
-                                  });
-                                },
-                                onTap: () {
-                                  setState(() {
-                                    if (catId == null){
-                                      textControllerName.text = cat.name;
-                                      textControllerRace.text = cat.race;
-                                    } else {
-                                      textControllerName.clear();
-                                      textControllerRace.clear();
-                                      catId = null;
-                                    }
-                                  });
-                                },
-                              ),
+                              child: Card(
+                                color: catId == cat.id ? Colors.amber : Colors.white,
+                                child: ListTile(
+                                  textColor: catId == cat.id ? Colors.white : Colors.black,
+                                  title: Text('Name: ${cat.name} | Race: ${cat.race}'),
+                                  onLongPress: () {
+                                      setState(() {
+                                        DatabaseHelper.instance.delete(cat.id!);
+                                      }
+                                    );
+                                  },
+                                  onTap: () {
+                                    setState(() {
+                                      if (catId == null){
+                                        textControllerName.text = cat.name;
+                                        textControllerRace.text = cat.race;
+                                      } else {
+                                        textControllerName.clear();
+                                        textControllerRace.clear();
+                                        catId = null;
+                                      }
+                                    });
+                                  },
+                                )
+                              )
                             );
                           }
                         ).toList()
