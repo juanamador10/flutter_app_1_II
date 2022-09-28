@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/Screens/taken_picture_screen.dart';
 import 'package:flutter_app_1/helpers/database_helper.dart';
 import 'package:flutter_app_1/models/cat_model.dart';
 
@@ -44,6 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 labelText: 'Input the name of cat'
               ) 
             ),
+            FloatingActionButton(onPressed:() {
+              Navigator.pushNamed(context, 'picture');
+            }),
             Center(
               child: (
                 FutureBuilder<List<Cat>> (
